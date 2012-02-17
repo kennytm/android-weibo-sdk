@@ -137,21 +137,7 @@ public class WeiboDialog extends Dialog {
             Log.d(TAG, "Redirect URL: " + url);
             // 待后台增加对默认重定向地址的支持后修改下面的逻辑
             if (url.startsWith(mWeibo.getRedirectUrl())) {
-                Bundle values = Utility.parseUrl(url);
-
-                String error = values.getString("error");
-                String error_code = values.getString("error_code");
-
-                if (error == null && error_code == null) {
-                    mListener.onComplete(values);
-                } else if (error.equals("access_denied")) {
-                    // 用户或授权服务器拒绝授予数据访问权限
-                    mListener.onCancel();
-                } else {
-                    mListener.onWeiboException(new WeiboException(error, Integer
-                            .parseInt(error_code)));
-                }
-
+                handleRedirectUrl(view, url);
                 WeiboDialog.this.dismiss();
                 return true;
             }
@@ -171,6 +157,13 @@ public class WeiboDialog extends Dialog {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             Log.d(TAG, "onPageStarted URL: " + url);
+            // google issue. shouldOverrideUrlLoading not executed
+            if (url.startsWith(mWeibo.getRedirectUrl())) {
+                handleRedirectUrl(view, url);
+                view.stopLoading();
+                WeiboDialog.this.dismiss();
+                return;
+            }
             super.onPageStarted(view, url, favicon);
             mSpinner.show();
         }
@@ -191,6 +184,22 @@ public class WeiboDialog extends Dialog {
             handler.proceed();
         }
 
+    }
+
+    private void handleRedirectUrl(WebView view, String url) {
+        Bundle values = Utility.parseUrl(url);
+
+        String error = values.getString("error");
+        String error_code = values.getString("error_code");
+
+        if (error == null && error_code == null) {
+            mListener.onComplete(values);
+        } else if (error.equals("access_denied")) {
+            // 用户或授权服务器拒绝授予数据访问权限
+            mListener.onCancel();
+        } else {
+            mListener.onWeiboException(new WeiboException(error, Integer.parseInt(error_code)));
+        }
     }
 
     private static String getHtml(String urlString) {
