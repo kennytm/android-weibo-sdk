@@ -73,6 +73,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -332,7 +334,16 @@ public class Utility {
 
             if (statusCode != 200) {
                 result = read(response);
-                throw new WeiboException(String.format(status.toString()), statusCode);
+                String err = null;
+                int errCode = 0;
+				try {
+					JSONObject json = new JSONObject(result);
+					err = json.getString("error");
+					errCode = json.getInt("error_code");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				throw new WeiboException(String.format(err), errCode);
             }
             // parse content stream from response
             result = read(response);
