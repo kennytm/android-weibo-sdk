@@ -33,6 +33,7 @@ import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
@@ -83,6 +84,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -92,7 +94,7 @@ import android.webkit.CookieSyncManager;
 /**
  * Utility class for Weibo object.
  * 
- * @author ZhangJie (zhangjie2@staff.sina.com.cn)
+ * @author (luopeng@staff.sina.com.cn zhangjie2@staff.sina.com.cn 官方微博：WBSDK  http://weibo.com/u/2791136085)
  */
 
 public class Utility {
@@ -381,7 +383,8 @@ public class Utility {
             HttpConnectionParams.setSoTimeout(params, Utility.SET_SOCKET_TIMEOUT);
             HttpClient client = new DefaultHttpClient(ccm, params);
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            if (!wifiManager.isWifiEnabled()) {
+            WifiInfo info = wifiManager.getConnectionInfo();
+            if (!wifiManager.isWifiEnabled() || -1 == info.getNetworkId()) {
                 // 获取当前正在使用的APN接入点
                 Uri uri = Uri.parse("content://telephony/carriers/preferapn");
                 Cursor mCursor = context.getContentResolver().query(uri, null, null, null, null);
@@ -452,7 +455,8 @@ public class Utility {
         HttpConnectionParams.setSoTimeout(httpParameters, Utility.SET_SOCKET_TIMEOUT);
         HttpClient client = new DefaultHttpClient(httpParameters);
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if (!wifiManager.isWifiEnabled()) {
+        WifiInfo info = wifiManager.getConnectionInfo();
+        if (!wifiManager.isWifiEnabled() || -1 == info.getNetworkId()) {
             // 获取当前正在使用的APN接入点
             Uri uri = Uri.parse("content://telephony/carriers/preferapn");
             Cursor mCursor = context.getContentResolver().query(uri, null, null, null, null);
@@ -677,5 +681,27 @@ public class Utility {
         }
         return out;
     }
+    
+    public static String digestMD5(String string) {
+		String s = null;
+		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'a', 'b', 'c', 'd', 'e', 'f' };
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(string.getBytes());
+			byte tmp[] = md.digest();
+			char str[] = new char[16 * 2];
+			int k = 0;
+			for (int i = 0; i < 16; i++) {
+				byte byte0 = tmp[i];
+				str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+				str[k++] = hexDigits[byte0 & 0xf];
+			}
+			s = new String(str);
+		}
+		catch (Exception e) {
+		}
+		return s;
+	}
 
 }

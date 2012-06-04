@@ -20,7 +20,7 @@ package com.weibo.net;
 /**
  * Encapsulation a Weibo error, when weibo request can not be implemented successful.
  *
- * @author  ZhangJie (zhangjie2@staff.sina.com.cn)
+ * @author  (luopeng@staff.sina.com.cn zhangjie2@staff.sina.com.cn 官方微博：WBSDK  http://weibo.com/u/2791136085)
  */
 public class WeiboException extends Exception {
 

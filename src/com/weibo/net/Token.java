@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
  * A token base class contais token and secret.Whether accessToken or
  * requestToken should be as child of it.
  * 
- * @author ZhangJie (zhangjie2@staff.sina.com.cn)
+ * @author (luopeng@staff.sina.com.cn zhangjie2@staff.sina.com.cn 官方微博：WBSDK  http://weibo.com/u/2791136085)
  */
 
 public class Token {
@@ -30,7 +30,7 @@ public class Token {
     // mToken 可能是access token， 可能是oauth_token
     private String mToken = "";
     private String mRefreshToken = "";
-    private long mExpiresIn = 0;
+    private long mExpiresTime = 0;
 
     private String mOauth_verifier = "";
     protected String mOauth_Token_Secret = "";
@@ -53,19 +53,29 @@ public class Token {
         this.mRefreshToken = mRefreshToken;
     }
 
-    public long getExpiresIn() {
-        return mExpiresIn;
+    public long getExpiresTime() {
+        return mExpiresTime;
     }
 
-    public void setExpiresIn(long mExpiresIn) {
-        this.mExpiresIn = mExpiresIn;
-    }
-
-    public void setExpiresIn(String expiresIn) {
+    /**
+     * 
+     * @param expiresIn 过期时间长度值，仅当从服务器获取到数据时使用此方法
+     */
+    public void setExpiresTime(String expiresIn) {
         if (expiresIn != null && !expiresIn.equals("0")) {
-            setExpiresIn(System.currentTimeMillis() + Integer.parseInt(expiresIn) * 1000);
+            setExpiresTime(System.currentTimeMillis() + Long.parseLong(expiresIn) * 1000);
         }
     }
+    
+    /**
+     * 
+     * @param mExpiresTime 过期时刻点 时间值
+     */
+    public void setExpiresTime(long mExpiresTime) {
+        this.mExpiresTime = mExpiresTime;
+    }
+
+    
 
     public void setToken(String mToken) {
         this.mToken = mToken;

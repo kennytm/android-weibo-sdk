@@ -25,7 +25,7 @@ import android.content.Context;
  * Encapsulation main Weibo APIs, Include: 1. getRquestToken , 2. getAccessToken, 3. url request.
  * Implements a weibo api as a asynchronized way. Every object used this runner should implement interface RequestListener.
  *
- * @author  ZhangJie (zhangjie2@staff.sina.com.cn)
+ * @author  (luopeng@staff.sina.com.cn zhangjie2@staff.sina.com.cn 官方微博：WBSDK  http://weibo.com/u/2791136085)
  */
 public class AsyncWeiboRunner {
 	

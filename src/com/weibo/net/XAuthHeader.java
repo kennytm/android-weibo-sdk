@@ -29,7 +29,7 @@ import android.text.TextUtils;
  * weiboParameters will not be changed. Otherwise the signature should be
  * calculated wrong.
  * 
- * @author ZhangJie (zhangjie2@staff.sina.com.cn)
+ * @author (luopeng@staff.sina.com.cn zhangjie2@staff.sina.com.cn 官方微博：WBSDK  http://weibo.com/u/2791136085)
  */
 public class XAuthHeader extends HttpHeaderFactory {
 
