@@ -76,7 +76,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.weibosdk_share_mblog_view);
+        this.setContentView(R.layout.share_mblog_view);
 
         Intent in = this.getIntent();
         mPicPath = in.getStringExtra(EXTRA_PIC_URI);
@@ -88,17 +88,17 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
         Weibo weibo = Weibo.getInstance();
         weibo.setAccessToken(accessToken);
 
-        Button close = (Button) this.findViewById(R.id.weibosdk_btnClose);
+        Button close = (Button) this.findViewById(R.id.btnClose);
         close.setOnClickListener(this);
-        mSend = (Button) this.findViewById(R.id.weibosdk_btnSend);
+        mSend = (Button) this.findViewById(R.id.btnSend);
         mSend.setOnClickListener(this);
-        LinearLayout total = (LinearLayout) this.findViewById(R.id.weibosdk_ll_text_limit_unit);
+        LinearLayout total = (LinearLayout) this.findViewById(R.id.ll_text_limit_unit);
         total.setOnClickListener(this);
-        mTextNum = (TextView) this.findViewById(R.id.weibosdk_tv_text_limit);
-        ImageView picture = (ImageView) this.findViewById(R.id.weibosdk_ivDelPic);
+        mTextNum = (TextView) this.findViewById(R.id.tv_text_limit);
+        ImageView picture = (ImageView) this.findViewById(R.id.ivDelPic);
         picture.setOnClickListener(this);
 
-        mEdit = (EditText) this.findViewById(R.id.weibosdk_etEdit);
+        mEdit = (EditText) this.findViewById(R.id.etEdit);
         mEdit.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
@@ -112,7 +112,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
                 int len = mText.length();
                 if (len <= WEIBO_MAX_LENGTH) {
                     len = WEIBO_MAX_LENGTH - len;
-                    mTextNum.setTextColor(R.color.weibosdk_text_num_gray);
+                    mTextNum.setTextColor(R.color.text_num_gray);
                     if (!mSend.isEnabled())
                         mSend.setEnabled(true);
                 } else {
@@ -126,7 +126,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
             }
         });
         mEdit.setText(mContent);
-        mPiclayout = (FrameLayout) ShareActivity.this.findViewById(R.id.weibosdk_flPic);
+        mPiclayout = (FrameLayout) ShareActivity.this.findViewById(R.id.flPic);
         if (TextUtils.isEmpty(this.mPicPath)) {
             mPiclayout.setVisibility(View.GONE);
         } else {
@@ -134,7 +134,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
             File file = new File(mPicPath);
             if (file.exists()) {
                 Bitmap pic = BitmapFactory.decodeFile(this.mPicPath);
-                ImageView image = (ImageView) this.findViewById(R.id.weibosdk_ivImage);
+                ImageView image = (ImageView) this.findViewById(R.id.ivImage);
                 image.setImageBitmap(pic);
             } else {
                 mPiclayout.setVisibility(View.GONE);
@@ -146,9 +146,9 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
     public void onClick(View v) {
         int viewId = v.getId();
 
-        if (viewId == R.id.weibosdk_btnClose) {
+        if (viewId == R.id.btnClose) {
             finish();
-        } else if (viewId == R.id.weibosdk_btnSend) {
+        } else if (viewId == R.id.btnSend) {
             Weibo weibo = Weibo.getInstance();
             try {
                 if (!TextUtils.isEmpty((String) (weibo.getAccessToken().getToken()))) {
@@ -161,7 +161,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
                         update(weibo, Weibo.getAppKey(), mContent, "", "");
                     }
                 } else {
-                    Toast.makeText(this, this.getString(R.string.weibosdk_please_login), Toast.LENGTH_LONG);
+                    Toast.makeText(this, this.getString(R.string.please_login), Toast.LENGTH_LONG);
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -170,23 +170,23 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
             } catch (WeiboException e) {
                 e.printStackTrace();
             }
-        } else if (viewId == R.id.weibosdk_ll_text_limit_unit) {
-            Dialog dialog = new AlertDialog.Builder(this).setTitle(R.string.weibosdk_attention)
-                    .setMessage(R.string.weibosdk_delete_all)
-                    .setPositiveButton(R.string.weibosdk_ok, new DialogInterface.OnClickListener() {
+        } else if (viewId == R.id.ll_text_limit_unit) {
+            Dialog dialog = new AlertDialog.Builder(this).setTitle(R.string.attention)
+                    .setMessage(R.string.delete_all)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             mEdit.setText("");
                         }
-                    }).setNegativeButton(R.string.weibosdk_cancel, null).create();
+                    }).setNegativeButton(R.string.cancel, null).create();
             dialog.show();
-        } else if (viewId == R.id.weibosdk_ivDelPic) {
-            Dialog dialog = new AlertDialog.Builder(this).setTitle(R.string.weibosdk_attention)
-                    .setMessage(R.string.weibosdk_del_pic)
-                    .setPositiveButton(R.string.weibosdk_ok, new DialogInterface.OnClickListener() {
+        } else if (viewId == R.id.ivDelPic) {
+            Dialog dialog = new AlertDialog.Builder(this).setTitle(R.string.attention)
+                    .setMessage(R.string.del_pic)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             mPiclayout.setVisibility(View.GONE);
                         }
-                    }).setNegativeButton(R.string.weibosdk_cancel, null).create();
+                    }).setNegativeButton(R.string.cancel, null).create();
             dialog.show();
         }
     }
@@ -235,7 +235,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
 
             @Override
             public void run() {
-                Toast.makeText(ShareActivity.this, R.string.weibosdk_send_sucess, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShareActivity.this, R.string.send_sucess, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -256,7 +256,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
             public void run() {
                 Toast.makeText(
                         ShareActivity.this,
-                        String.format(ShareActivity.this.getString(R.string.weibosdk_send_failed) + ":%s",
+                        String.format(ShareActivity.this.getString(R.string.send_failed) + ":%s",
                                 e.getMessage()), Toast.LENGTH_LONG).show();
             }
         });

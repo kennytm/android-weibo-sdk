@@ -34,7 +34,7 @@ public class Oauth2AccessToken extends Token {
 	            try {
 	                JSONObject json = new JSONObject(rltString);
 	                setToken(json.optString("access_token"));
-	                setExpiresTime(json.optString("expires_in"));
+	                setExpiresIn(json.optInt("expires_in"));
 	                setRefreshToken(json.optString("refresh_token"));
 	            } catch (JSONException e) {
 	                //不处理

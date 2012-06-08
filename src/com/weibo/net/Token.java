@@ -30,7 +30,7 @@ public class Token {
     // mToken 可能是access token， 可能是oauth_token
     private String mToken = "";
     private String mRefreshToken = "";
-    private long mExpiresTime = 0;
+    private long mExpiresIn = 0;
 
     private String mOauth_verifier = "";
     protected String mOauth_Token_Secret = "";
@@ -53,29 +53,19 @@ public class Token {
         this.mRefreshToken = mRefreshToken;
     }
 
-    public long getExpiresTime() {
-        return mExpiresTime;
+    public long getExpiresIn() {
+        return mExpiresIn;
     }
 
-    /**
-     * 
-     * @param expiresIn 过期时间长度值，仅当从服务器获取到数据时使用此方法
-     */
-    public void setExpiresTime(String expiresIn) {
+    public void setExpiresIn(long mExpiresIn) {
+        this.mExpiresIn = mExpiresIn;
+    }
+
+    public void setExpiresIn(String expiresIn) {
         if (expiresIn != null && !expiresIn.equals("0")) {
-            setExpiresTime(System.currentTimeMillis() + Long.parseLong(expiresIn) * 1000);
+            setExpiresIn(System.currentTimeMillis() + Integer.parseInt(expiresIn) * 1000);
         }
     }
-    
-    /**
-     * 
-     * @param mExpiresTime 过期时刻点 时间值
-     */
-    public void setExpiresTime(long mExpiresTime) {
-        this.mExpiresTime = mExpiresTime;
-    }
-
-    
 
     public void setToken(String mToken) {
         this.mToken = mToken;
