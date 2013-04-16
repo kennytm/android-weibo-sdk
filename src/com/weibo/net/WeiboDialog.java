@@ -38,6 +38,8 @@ public class WeiboDialog extends Dialog {
             ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     static final int MARGIN = 4;
     static final int PADDING = 2;
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 320;
 
     private final Weibo mWeibo;
     private String mUrl;
@@ -101,6 +103,8 @@ public class WeiboDialog extends Dialog {
         lp.topMargin = resources.getDimensionPixelSize(R.dimen.dialog_top_margin);
         lp.rightMargin = resources.getDimensionPixelSize(R.dimen.dialog_right_margin);
         lp.bottomMargin = resources.getDimensionPixelSize(R.dimen.dialog_bottom_margin);
+        lp.width = WIDTH;
+        lp.height = HEIGHT;
         mContent.addView(webViewContainer, lp);
     }
 
