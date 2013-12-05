@@ -5,8 +5,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 15
-    buildToolsVersion "18.1.1"
+    compileSdkVersion 16
+    buildToolsVersion "19"
 
     sourceSets {
         main {
